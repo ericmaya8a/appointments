@@ -1,4 +1,4 @@
-import { ThemeToggle } from '@/components/common/theme-toggle/theme-toggle';
+import { ThemeToggle } from '@/components/common/theme-selector';
 
 export function MainNavigation() {
   return (
