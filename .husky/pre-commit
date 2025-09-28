@@ -1,2 +1,2 @@
 echo 'pre commiting... 📖'
-yarn lint-staged --concurent false
+yarn lint-staged --concurrent false
