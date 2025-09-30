@@ -27,7 +27,7 @@ export function ThemeToggle() {
   if (isClient)
     return (
       <Select value={theme} onValueChange={handleOnchange}>
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-[180px]" aria-label="theme selector">
           <SelectValue placeholder="Select a theme" />
         </SelectTrigger>
         <SelectContent>
