@@ -11,8 +11,8 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
+} from '@/components/shadcn/select';
+import { Skeleton } from '@/components/shadcn/skeleton';
 import { themeMapping } from '@/theme';
 
 export function ThemeToggle() {
