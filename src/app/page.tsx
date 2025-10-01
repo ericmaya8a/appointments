@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { PageWrapper } from '@/components/common/page-wrapper';
+import { PageWrapper } from '@/components/common';
 import { Button } from '@/components/shadcn/button';
 
 export default function Home() {

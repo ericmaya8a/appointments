@@ -15,7 +15,7 @@ import {
 import { Skeleton } from '@/components/shadcn/skeleton';
 import { themeMapping } from '@/theme';
 
-export function ThemeToggle() {
+export function ThemeSelector() {
   const { theme, setTheme } = useTheme();
   const [isClient, setIsClient] = useState(false);
 

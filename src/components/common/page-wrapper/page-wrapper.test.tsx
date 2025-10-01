@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { PageWrapper } from '.';
+import { PageWrapper } from './page-wrapper';
 
 describe('PageWrapper', () => {
   it('should render the component', () => {
