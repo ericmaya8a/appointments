@@ -16,9 +16,7 @@ describe('PageWrapper', () => {
       </PageWrapper>,
     );
 
-    expect(screen.getByTestId('page-wrapper')).toHaveClass(
-      'h-[calc(100dvh-68px)] bg-red-700 text-white',
-    );
+    expect(screen.getByTestId('page-wrapper')).toHaveClass('h-[calc(100dvh-68px)] bg-red-700 text-white');
     expect(screen.getByText(/children/i)).toBeInTheDocument();
   });
 });

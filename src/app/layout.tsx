@@ -37,7 +37,7 @@ export default function RootLayout({
           themes={Object.keys(themeMapping)}
         >
           <MainNavigation />
-          {children}
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>

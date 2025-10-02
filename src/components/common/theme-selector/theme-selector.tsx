@@ -20,6 +20,7 @@ export function ThemeSelector() {
   const [isClient, setIsClient] = useState(false);
 
   const handleOnchange = (value: string) => setTheme(value);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
