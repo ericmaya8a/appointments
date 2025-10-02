@@ -10,7 +10,7 @@ const createJestConfig = nextJest({
 const config: Config = {
   collectCoverageFrom: ['src/**/*.{js,jsx,ts,tsx}'],
   coverageProvider: 'v8',
-  coveragePathIgnorePatterns: ['/node_modules/', 'index.ts', 'layout.tsx', '/shadcn', '/types'],
+  coveragePathIgnorePatterns: ['/node_modules/', 'index.ts', '/shadcn', '/types'],
   coverageThreshold: {
     global: {
       branches: 80,
