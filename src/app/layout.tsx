@@ -36,8 +36,10 @@ export default function RootLayout({
           disableTransitionOnChange
           themes={Object.keys(themeMapping)}
         >
-          <MainNavigation />
-          <main>{children}</main>
+          <div className="bg-background h-dvh">
+            <MainNavigation />
+            <main className="container mx-auto p-4">{children}</main>
+          </div>
         </ThemeProvider>
       </body>
     </html>
