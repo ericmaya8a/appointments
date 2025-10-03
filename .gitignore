@@ -42,3 +42,5 @@ next-env.d.ts
 
 # coverage ui
 /html
+
+/src/generated/prisma
