@@ -26,7 +26,8 @@ model Patient {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  address Address[]
+  address      Address[]
+  appointments Appointment[]
 }
 
 model Address {
@@ -42,4 +43,22 @@ model Address {
   updatedAt  DateTime @updatedAt
   Patient    Patient? @relation(fields: [patientId], references: [id])
   patientId  String?
+}
+
+model Appointment {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  symptoms  String   @db.Text
+  diagnosis String   @db.Text
+
+  prescriptions Prescription[]
+  Patient       Patient?       @relation(fields: [patientId], references: [id])
+  patientId     String?
+}
+
+model Prescription {
+  id            String       @id @default(uuid())
+  content       String       @db.Text
+  Appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  appointmentId Int?
 }

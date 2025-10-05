@@ -31,6 +31,27 @@ function createAddress(): Prisma.AddressCreateInput {
   };
 }
 
+function createAppointment(): Prisma.AppointmentCreateInput {
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.getMonth();
+  const year = now.getFullYear();
+  const date = faker.date.between({
+    from: new Date(year, month, day),
+    to: new Date(year + 1, month, day),
+  });
+  const symptoms = faker.lorem.lines({ min: 1, max: 3 });
+  const diagnosis = faker.lorem.lines({ min: 1, max: 3 });
+  return {
+    date,
+    symptoms,
+    diagnosis,
+    prescriptions: {
+      create: [{ content: faker.lorem.lines({ min: 1, max: 4 }) }],
+    },
+  };
+}
+
 export async function main() {
   for (const p of patienceArray) {
     await prisma.patient.create({
@@ -38,6 +59,9 @@ export async function main() {
         ...createPatient(),
         address: {
           create: [createAddress()],
+        },
+        appointments: {
+          create: [createAppointment()],
         },
       },
     });
