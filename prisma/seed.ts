@@ -38,7 +38,7 @@ function createAppointment(): Prisma.AppointmentCreateInput {
   const year = now.getFullYear();
   const date = faker.date.between({
     from: new Date(year, month, day),
-    to: new Date(year + 1, month, day),
+    to: new Date(year, month + 2, day),
   });
   const description = faker.lorem.lines({ min: 1, max: 3 });
   const symptoms = faker.lorem.lines({ min: 1, max: 3 });
