@@ -46,10 +46,11 @@ model Address {
 }
 
 model Appointment {
-  id        Int      @id @default(autoincrement())
-  date      DateTime
-  symptoms  String   @db.Text
-  diagnosis String   @db.Text
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  description String   @db.Text
+  symptoms    String?  @db.Text
+  diagnosis   String?  @db.Text
 
   prescriptions Prescription[]
   Patient       Patient?       @relation(fields: [patientId], references: [id])

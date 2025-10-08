@@ -40,10 +40,12 @@ function createAppointment(): Prisma.AppointmentCreateInput {
     from: new Date(year, month, day),
     to: new Date(year + 1, month, day),
   });
+  const description = faker.lorem.lines({ min: 1, max: 3 });
   const symptoms = faker.lorem.lines({ min: 1, max: 3 });
   const diagnosis = faker.lorem.lines({ min: 1, max: 3 });
   return {
     date,
+    description,
     symptoms,
     diagnosis,
     prescriptions: {
@@ -53,7 +55,8 @@ function createAppointment(): Prisma.AppointmentCreateInput {
 }
 
 export async function main() {
-  for (const p of patienceArray) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  for (const _p of patienceArray) {
     await prisma.patient.create({
       data: {
         ...createPatient(),
