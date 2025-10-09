@@ -15,14 +15,17 @@ jest.mock('next/link', () => ({
 
 describe('WeekAppointments', () => {
   it('renders appointment items when appointments exist', async () => {
-    (getThisWeekAppointments as jest.Mock).mockResolvedValueOnce([
-      {
-        id: 1,
-        date: '01 Oct 2025 10:00',
-        description: 'Checkup',
-        name: 'John Doe',
-      },
-    ]);
+    (getThisWeekAppointments as jest.Mock).mockResolvedValueOnce({
+      success: true,
+      data: [
+        {
+          id: 1,
+          date: '01 Oct 2025 10:00',
+          description: 'Checkup',
+          name: 'John Doe',
+        },
+      ],
+    });
     render(await WeekAppointments());
     expect(screen.getByText('01 Oct 2025 10:00')).toBeInTheDocument();
     expect(screen.getByText('John Doe')).toBeInTheDocument();
@@ -31,8 +34,21 @@ describe('WeekAppointments', () => {
   });
 
   it('renders empty state when no appointments', async () => {
-    (getThisWeekAppointments as jest.Mock).mockResolvedValueOnce([]);
+    (getThisWeekAppointments as jest.Mock).mockResolvedValueOnce({
+      success: true,
+      data: [],
+    });
     render(await WeekAppointments());
     expect(screen.getByText('No appointments this week')).toBeInTheDocument();
+  });
+
+  it('renders empty state when an error occurs', async () => {
+    (getThisWeekAppointments as jest.Mock).mockResolvedValueOnce({
+      success: false,
+      error: 'Something went wrong!',
+    });
+    render(await WeekAppointments());
+    expect(screen.getByText('Error')).toBeInTheDocument();
+    expect(screen.getByText(/something went wrong!/i)).toBeInTheDocument();
   });
 });

@@ -1,8 +1,8 @@
-import { getAppointmentsByDate } from '@/dal/appointment';
+import { getAppointmentsByDate } from '@/lib/db/appointment';
 
 import { getThisWeekAppointments } from './appointments';
 
-jest.mock('@/dal/appointment', () => ({
+jest.mock('@/lib/db/appointment', () => ({
   getAppointmentsByDate: jest.fn(),
 }));
 
@@ -26,19 +26,23 @@ describe('getThisWeekAppointments', () => {
 
     const result = await getThisWeekAppointments();
     expect(getAppointmentsByDate).toHaveBeenCalled();
-    expect(result).toEqual([
-      {
-        id: 1,
-        date: '08 Oct 2025 12:30',
-        description: 'Checkup',
-        name: 'John Doe',
-      },
-      {
-        id: 2,
-        date: '13 Oct 2025 12:30',
-        description: 'Consultation',
-        name: 'Jane Smith',
-      },
-    ]);
+    expect(result).toEqual({
+      data: [
+        { date: '08 Oct 2025 12:30', description: 'Checkup', id: 1, name: 'John Doe' },
+        { date: '13 Oct 2025 12:30', description: 'Consultation', id: 2, name: 'Jane Smith' },
+      ],
+      success: true,
+    });
+  });
+
+  it('returns an error', async () => {
+    (getAppointmentsByDate as jest.Mock).mockRejectedValueOnce(new Error('Something went wrong!'));
+
+    const result = await getThisWeekAppointments();
+    expect(getAppointmentsByDate).toHaveBeenCalled();
+    expect(result).toEqual({
+      error: 'Something went wrong!',
+      success: false,
+    });
   });
 });

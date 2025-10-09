@@ -1,17 +1,30 @@
-import { BanIcon } from 'lucide-react';
+import { BanIcon, ShieldXIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { getThisWeekAppointments } from '@/backend/queries/appointments';
-import { Empty, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/shadcn/empty';
+import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/shadcn/empty';
 import { Item, ItemContent, ItemDescription, ItemHeader, ItemTitle } from '@/components/shadcn/item';
 
 export async function WeekAppointments() {
-  const appointments = await getThisWeekAppointments();
+  const result = await getThisWeekAppointments();
 
-  if (appointments.length > 0)
+  if (!result.success)
+    return (
+      <Empty className="border border-dashed">
+        <EmptyHeader>
+          <EmptyMedia variant="icon">
+            <ShieldXIcon />
+          </EmptyMedia>
+          <EmptyTitle>Error</EmptyTitle>
+          <EmptyDescription>{result.error}</EmptyDescription>
+        </EmptyHeader>
+      </Empty>
+    );
+
+  if (result.data.length > 0)
     return (
       <div className="flex flex-col gap-4">
-        {appointments.map(({ date, description, id, name }) => (
+        {result.data.map(({ date, description, id, name }) => (
           <Item key={id} variant="outline" asChild>
             <Link href={`/appointment/${id}`}>
               <ItemHeader>{date}</ItemHeader>
