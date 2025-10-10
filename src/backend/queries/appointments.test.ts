@@ -11,13 +11,15 @@ describe('getThisWeekAppointments', () => {
     const mockAppointments = [
       {
         id: 1,
-        date: new Date(2025, 9, 8, 12, 30),
+        from: new Date(2025, 9, 8, 12, 30),
+        to: new Date(2025, 9, 8, 13, 0),
         description: 'Checkup',
         Patient: { firstName: 'John', lastName: 'Doe' },
       },
       {
         id: 2,
-        date: new Date(2025, 9, 13, 12, 30),
+        from: new Date(2025, 9, 13, 12, 30),
+        to: new Date(2025, 9, 13, 13, 30),
         description: 'Consultation',
         Patient: { firstName: 'Jane', lastName: 'Smith' },
       },
@@ -28,8 +30,8 @@ describe('getThisWeekAppointments', () => {
     expect(getAppointmentsByDate).toHaveBeenCalled();
     expect(result).toEqual({
       data: [
-        { date: '08 Oct 2025 12:30', description: 'Checkup', id: 1, name: 'John Doe' },
-        { date: '13 Oct 2025 12:30', description: 'Consultation', id: 2, name: 'Jane Smith' },
+        { date: '08 Oct 2025 12:30 - 13:00', description: 'Checkup', id: 1, name: 'John Doe' },
+        { date: '13 Oct 2025 12:30 - 13:30', description: 'Consultation', id: 2, name: 'Jane Smith' },
       ],
       success: true,
     });

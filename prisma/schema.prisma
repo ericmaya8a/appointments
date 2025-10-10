@@ -47,7 +47,8 @@ model Address {
 
 model Appointment {
   id          Int      @id @default(autoincrement())
-  date        DateTime
+  from        DateTime
+  to          DateTime
   description String   @db.Text
   symptoms    String?  @db.Text
   diagnosis   String?  @db.Text

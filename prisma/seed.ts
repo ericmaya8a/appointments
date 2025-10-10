@@ -3,7 +3,12 @@ import { faker } from '@faker-js/faker';
 import { PrismaClient, Prisma } from '../src/generated/prisma';
 
 const prisma = new PrismaClient();
-const patienceArray = Array.from({ length: 20 }, (value, index) => index + 1);
+const patienceArray = Array.from({ length: 40 }, (value, index) => index + 1);
+const timeSlots = patienceArray.reduce((obj: { [key: number]: { from: number; to: number } }, item) => {
+  const mod = item % 5;
+  obj[item] = { from: mod > 0 ? mod + 9 : 14, to: mod > 0 ? mod + 10 : 15 };
+  return obj;
+}, {});
 
 function createPatient(): Prisma.PatientCreateInput {
   const sex = faker.person.sexType();
@@ -31,20 +36,13 @@ function createAddress(): Prisma.AddressCreateInput {
   };
 }
 
-function createAppointment(): Prisma.AppointmentCreateInput {
-  const now = new Date();
-  const day = now.getDate();
-  const month = now.getMonth();
-  const year = now.getFullYear();
-  const date = faker.date.between({
-    from: new Date(year, month, day),
-    to: new Date(year, month + 2, day),
-  });
+function createAppointment(from: Date, to: Date): Prisma.AppointmentCreateInput {
   const description = faker.lorem.lines({ min: 1, max: 3 });
   const symptoms = faker.lorem.lines({ min: 1, max: 3 });
   const diagnosis = faker.lorem.lines({ min: 1, max: 3 });
   return {
-    date,
+    from,
+    to,
     description,
     symptoms,
     diagnosis,
@@ -55,8 +53,14 @@ function createAppointment(): Prisma.AppointmentCreateInput {
 }
 
 export async function main() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  for (const _p of patienceArray) {
+  let count = 0;
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.getMonth();
+  const year = now.getFullYear();
+  for (const n of patienceArray) {
+    const from = new Date(year, month, day + count, timeSlots[n].from, 0);
+    const to = new Date(year, month, day + count, timeSlots[n].to, 0);
     await prisma.patient.create({
       data: {
         ...createPatient(),
@@ -64,10 +68,11 @@ export async function main() {
           create: [createAddress()],
         },
         appointments: {
-          create: [createAppointment()],
+          create: [createAppointment(from, to)],
         },
       },
     });
+    if (n % 5 === 0) count++;
   }
 }
 

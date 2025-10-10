@@ -13,7 +13,8 @@ export async function getThisWeekAppointments(): Action<
     name: string;
   }[]
 > {
-  const today = new Date();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const nextMonday = nextDay(today, 1);
   const [appointments, error] = await tryCatch(getAppointmentsByDate(today, nextMonday));
 
@@ -25,11 +26,14 @@ export async function getThisWeekAppointments(): Action<
 
   return {
     success: true,
-    data: appointments.map(({ id, date, description, Patient }) => ({
-      id,
-      date: format(date, 'dd MMM yyyy HH:mm'),
-      description,
-      name: `${Patient?.firstName} ${Patient?.lastName}`,
-    })),
+    data: appointments.map(({ id, from, to, description, Patient }) => {
+      const date = `${format(from, 'dd MMM yyyy')} ${format(from, 'HH:mm')} - ${format(to, 'HH:mm')}`;
+      return {
+        id,
+        date,
+        description,
+        name: `${Patient?.firstName} ${Patient?.lastName}`,
+      };
+    }),
   };
 }
