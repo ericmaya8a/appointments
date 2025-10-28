@@ -6,6 +6,10 @@ jest.mock('@/lib/db/appointment', () => ({
   getAppointmentsByDate: jest.fn(),
 }));
 
+jest.mock('next/cache', () => ({
+  cacheLife: jest.fn(),
+}));
+
 describe('getThisWeekAppointments', () => {
   it('returns formatted appointments for this week', async () => {
     const mockAppointments = [
