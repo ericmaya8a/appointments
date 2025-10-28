@@ -1,5 +1,6 @@
 import 'server-only';
 import { format, nextDay } from 'date-fns';
+import { cacheLife } from 'next/cache';
 
 import { getAppointmentsByDate } from '@/lib/db/appointment';
 import { tryCatch } from '@/try-catch';
@@ -13,8 +14,15 @@ export async function getThisWeekAppointments(): Action<
     name: string;
   }[]
 > {
+  'use cache';
+  cacheLife({
+    stale: 3600,
+    revalidate: 900,
+    expire: 86400,
+  });
+
   const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours());
   const nextMonday = nextDay(today, 1);
   const [appointments, error] = await tryCatch(getAppointmentsByDate(today, nextMonday));
 
