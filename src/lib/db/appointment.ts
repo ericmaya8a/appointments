@@ -1,5 +1,6 @@
-import { Prisma } from '@/generated/prisma';
 import prisma from '@/lib/prisma';
+
+import { Prisma } from '../../generated/prisma/client';
 
 export async function getAppointmentsByDate(startDate: Date, endDate: Date) {
   return await prisma.appointment.findMany({

@@ -1,8 +1,17 @@
 import { faker } from '@faker-js/faker';
+import { PrismaPg } from '@prisma/adapter-pg';
 
-import { PrismaClient, Prisma } from '../src/generated/prisma';
+import { PrismaClient, Prisma } from '../src/generated/prisma/client';
+import 'dotenv/config';
 
-const prisma = new PrismaClient();
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+});
+
+const prisma = new PrismaClient({
+  adapter,
+});
+
 const patienceArray = Array.from({ length: 40 }, (value, index) => index + 1);
 const timeSlots = patienceArray.reduce((obj: { [key: number]: { from: number; to: number } }, item) => {
   const mod = item % 5;
