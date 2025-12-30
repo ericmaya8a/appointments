@@ -23,11 +23,14 @@ export function AppointmentDetails({ params }: AppointmentDetailsProps) {
         <p>Description: {result.data.appointmentData.description}</p>
         <p>Patient: {result.data.patientData.name}</p>
         {result.data.prescriptions && (
-          <ul>
-            {result.data.prescriptions.map(({ id, content }) => (
-              <p key={id}>{content}</p>
-            ))}
-          </ul>
+          <>
+            <p>Prescriptions:</p>
+            <ul>
+              {result.data.prescriptions.map(({ id, content }) => (
+                <p key={id}>{content}</p>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     );
